@@ -3,23 +3,10 @@ from PIL import Image, ImageFilter
 import urllib.request
 import pandas as pd
 import matplotlib.pyplot as plt
-
-url = 'https://raw.githubusercontent.com/k5yi/econ2005/master/datasets/%EC%8B%9C%EC%95%84.png'
-im = Image.open(urllib.request.urlopen(url))
-
-img = np.array(im) + 40
-
-print(img.shape)
-print('pixel value range', np.min(img), np.max(img))
-plt.imshow(img)
-
 def invert_image(img) :
   a = np.arange(256*256*3).reshape((256,256,3))
   a.fill(255)
   return plt.imshow(a - img)
-
-invert_image(img) # 3.1
-
 def grayscale_image(img):
     weights=np.array([0.2989, 0.5870, 0.1140])
     grayImage = img.copy()
@@ -27,9 +14,7 @@ def grayscale_image(img):
     for i in range(3):
         grayImage[:,:,i] = np.array(img[:, :, 0]) * weights[0] + np.array(img[:, :, 1]) * weights[1] + np.array(img[:, :, 2]) * weights[2]
            
-    return plt.imshow(grayImage)    
-
-grayscale_image(img) # 3.2
+    return plt.imshow(grayImage)
 
 def boundary(img, cutoff):
   segmented_Image = img.copy()
@@ -45,9 +30,7 @@ def boundary(img, cutoff):
         else :
           segmented_Image[i][j][k] = 255
 
-  return plt.imshow(segmented_Image)  
-
-boundary(img, cutoff=100) # 3.3
+  return plt.imshow(segmented_Image)
 
 def flip(img, by = None) :
   if by == 'vertical' :
@@ -56,9 +39,6 @@ def flip(img, by = None) :
     return plt.imshow(img[:,::-1])
   else :
     return print("Choose one between 'vertical' or 'horizontal'.")
-
-flip(img, by='vertical')
-flip(img, by='horizontal') # 3.4
 
 def padding(img, padding_size, pad=255):
   if type(padding_size) == int :
@@ -82,9 +62,6 @@ def padding(img, padding_size, pad=255):
   
   new = np.concatenate((a,np.concatenate((b,img,c), axis=1),d), axis=0)
   return plt.imshow(new.astype(np.uint8))
-
-padding(img, padding_size=20, pad=255)
-padding(img, padding_size=(10,20), pad=255) # 3.5
 
 
 
